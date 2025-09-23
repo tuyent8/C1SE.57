@@ -1,6 +1,20 @@
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
+const connectSQL = require("./src/config/sql");
+const connectMongo = require("./src/config/mongo");
+
 const app = express();
+app.use(express.json());
 
-app.get('/', (req, res) => res.send('Hello Backend!'));
+// Kết nối database
+connectSQL();
+connectMongo();
 
-app.listen(3000, () => console.log('Server running at http://localhost:3000'));
+app.get("/", (req, res) => {
+  res.send("Backend connected to SQL Server + MongoDB 🚀");
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
